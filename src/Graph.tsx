@@ -34,17 +34,6 @@ class Graph extends Component<IProps, {}> {
     // Get element to attach the table from the DOM.
     const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
 
-    elem.setAttribute("view", "y_line") // Type of graph we want.
-    elem.setAttribute("column-pivots", '["stock"]') // Distinguishes type of stock.
-    elem.setAttribute("row-pivots", '["timestamp"]') // Match x-axis datapoint with a specific timestamp.
-    elem.setAttribute("columns", '["top_ask_price"]') // Match y-axis with the top asking price.
-    elem.setAttribute("aggregates", `
-      {"stock": "distinct count",
-        "top_ask_price": "avg",
-        "top_bid_price": "avg",
-        "timestamp": "distinct count"}
-    `); // If there are duplicates, merge them into one data point and average them out.
-
     const schema = {
       stock: 'string',
       top_ask_price: 'float',
@@ -60,6 +49,17 @@ class Graph extends Component<IProps, {}> {
 
       // Add more Perspective configurations here.
       elem.load(this.table);
+
+      elem.setAttribute("view", "y_line") // Type of graph we want.
+      elem.setAttribute("column-pivots", '["stock"]') // Distinguishes type of stock.
+      elem.setAttribute("row-pivots", '["timestamp"]') // Match x-axis datapoint with a specific timestamp.
+      elem.setAttribute("columns", '["top_ask_price"]') // Match y-axis with the top asking price.
+      elem.setAttribute("aggregates", `
+        {"stock": "distinct count",
+          "top_ask_price": "avg",
+          "top_bid_price": "avg",
+          "timestamp": "distinct count"}
+      `); // If there are duplicates, merge them into one data point and average them out.
     }
   }
 
